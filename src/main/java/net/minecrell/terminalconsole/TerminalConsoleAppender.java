@@ -230,10 +230,18 @@ public final class TerminalConsoleAppender extends AbstractAppender {
             //     (We try to detect it using an additional JAR it adds to the classpath)
             //  2. The system property forces the use of JLine.
             boolean dumb = jlineOverride == Boolean.TRUE || System.getProperty("java.class.path").contains("idea_rt.jar");
+            boolean jna = checkClass("org.jline.terminal.jna");
+            boolean jansi = checkClass("org.jline.terminal.jansi");
+            boolean jni = checkClass("org.jline.terminal.jni");
 
             if (jlineOverride != Boolean.FALSE) {
                 try {
-                    terminal = TerminalBuilder.builder().dumb(dumb).build();
+                    terminal = TerminalBuilder.builder()
+                            .dumb(dumb)
+                            .jna(jna)
+                            .jansi(jansi)
+                            .jni(jni)
+                            .build();
                 } catch (IllegalStateException e) {
                     // Unless disabled using one of the exceptions above,
                     // JLine throws an exception before creating a dumb terminal
@@ -331,6 +339,15 @@ public final class TerminalConsoleAppender extends AbstractAppender {
         } else {
             LOGGER.warn("Invalid value for boolean input property '{}': {}", name, value);
             return null;
+        }
+    }
+
+    private static boolean checkClass(String className){
+        try {
+            Class.forName(className);
+            return true;
+        } catch (ClassNotFoundException e) {
+            return false;
         }
     }
 
