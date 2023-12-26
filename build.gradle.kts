@@ -6,7 +6,7 @@ plugins {
     id("org.cadixdev.licenser") version "0.6.1"
 }
 
-base.archivesName(project.name.toLowerCase())
+base.archivesName(project.name.lowercase())
 
 sourceSets.create("java11") {
     java.srcDir("src/main/java11")
@@ -27,15 +27,15 @@ repositories {
 }
 
 dependencies {
-    api("org.apache.logging.log4j:log4j-core:2.14.1")
-    annotationProcessor("org.apache.logging.log4j:log4j-core:2.14.1")
+    api("org.apache.logging.log4j:log4j-core:2.22.0")
+    annotationProcessor("org.apache.logging.log4j:log4j-core:2.22.0")
 
-    api("org.jline:jline-reader:3.20.0")
+    api("org.jline:jline-reader:3.25.0")
 
-    compileOnly("org.checkerframework:checker-qual:3.17.0")
+    compileOnly("org.checkerframework:checker-qual:3.42.0")
 
-    testImplementation("org.junit.jupiter:junit-jupiter-api:5.7.2")
-    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.7.2")
+    testImplementation("org.junit.jupiter:junit-jupiter-api:5.10.1")
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.10.1")
     "intTestImplementation"(files(tasks.named("jar")))
 }
 
@@ -80,7 +80,7 @@ publishing {
     publications {
         register<MavenPublication>("mavenJava") {
             from(components["java"])
-            artifactId = project.name.toLowerCase()
+            artifactId = project.name.lowercase()
 
             pom {
                 val url: String by project
