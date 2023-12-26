@@ -57,15 +57,18 @@ tasks.jar {
 
 tasks.named<JavaCompile>("compileJava") {
     options.release.set(8)
+    options.encoding = "UTF-8"
 }
 
 tasks.named<JavaCompile>("compileJava11Java") {
     options.release.set(11)
     options.javaModuleVersion.set(project.version as String)
+    options.encoding = "UTF-8"
 }
 
 tasks.named<JavaCompile>("compileIntTestJava") {
     options.release.set(11)
+    options.encoding = "UTF-8"
 }
 
 tasks.withType<Test> {
