@@ -248,12 +248,8 @@ public final class TerminalConsoleAppender extends AbstractAppender {
                     // Dumb terminals are used if there is no real terminal attached
                     // to the application.
 
-                    if (LOGGER.isDebugEnabled()) {
-                        // Log with stacktrace
-                        LOGGER.warn("Advanced terminal features are not available in this environment", e);
-                    } else {
-                        LOGGER.warn("Advanced terminal features are not available in this environment");
-                    }
+                    // Log with stacktrace
+                    LOGGER.warn("Advanced terminal features are not available in this environment", e);
                 } catch (IOException e) {
                     LOGGER.error("Failed to initialize terminal. Falling back to standard console", e);
                 }
