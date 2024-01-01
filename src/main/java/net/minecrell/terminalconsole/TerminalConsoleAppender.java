@@ -230,17 +230,21 @@ public final class TerminalConsoleAppender extends AbstractAppender {
             //     (We try to detect it using an additional JAR it adds to the classpath)
             //  2. The system property forces the use of JLine.
             boolean dumb = jlineOverride == Boolean.TRUE || System.getProperty("java.class.path").contains("idea_rt.jar");
-            boolean jna = checkClass("org.jline.terminal.jna");
-            boolean jansi = checkClass("org.jline.terminal.jansi");
-            boolean jni = checkClass("org.jline.terminal.jni");
+            boolean ffm = checkProvider("org.jline.terminal.impl.ffm.FfmTerminalProvider");
+            boolean jansi = checkProvider("org.jline.terminal.impl.jansi.JansiTerminalProvider");
+            boolean jni = checkProvider("org.jline.terminal.impl.jni.JniTerminalProvider");
+            boolean jna = checkProvider("org.jline.terminal.impl.jna.JnaTerminalProvider");
 
             if (jlineOverride != Boolean.FALSE) {
                 try {
                     terminal = TerminalBuilder.builder()
                             .dumb(dumb)
-                            .jna(jna)
+                            .ffm(ffm)
                             .jansi(jansi)
                             .jni(jni)
+                            .jna(jna)
+                            .system(false)
+                            .streams(System.in, System.out)
                             .build();
                 } catch (IllegalStateException e) {
                     // Unless disabled using one of the exceptions above,
@@ -338,7 +342,7 @@ public final class TerminalConsoleAppender extends AbstractAppender {
         }
     }
 
-    private static boolean checkClass(String className){
+    private static boolean checkProvider(String className){
         try {
             Class.forName(className);
             return true;
