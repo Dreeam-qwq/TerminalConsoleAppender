@@ -243,7 +243,7 @@ public final class TerminalConsoleAppender extends AbstractAppender {
                             .jansi(jansi)
                             .jni(jni)
                             .jna(jna)
-                            .system(false)
+                            .system(true)
                             .streams(System.in, System.out)
                             .build();
                 } catch (IllegalStateException e) {
